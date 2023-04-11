@@ -71,11 +71,13 @@ public class ExchangeRepository {
 	
 	
 	public Mono<String> insertAuditExchange(TypeExchangeDto enchangeDto) {
+		System.out.println("Entra por aqui" + enchangeDto);
 		StringBuffer sql = new StringBuffer();
 		sql.append("INSERT INTO AUDIT_EXCHANGE "
 				+ "(COINT_ONE, COINT_TWO, BUY, SALE, DATE_AUDIT)"
-				+ "VALUES "
-				+ "$1,$2,$3,$4,now()");
+				+ "VALUES ("
+				+ "$1,$2,$3,$4,now())");
+		System.out.println("El SQL " + sql);
 		return Mono.from(connectionFactory.create())
 		.flatMapMany(connection -> connection
 				.createStatement(sql.toString())				

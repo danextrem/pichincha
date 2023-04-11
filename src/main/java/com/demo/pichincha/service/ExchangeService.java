@@ -26,16 +26,13 @@ public class ExchangeService {
 	}
 	
 	
-	public Mono<String> updateByCointExchange(TypeExchangeDto enchangeDto ) {
-		
+	public Mono<String> updateByCointExchange(TypeExchangeDto enchangeDto ) {		
 		Mono<TypeExchangeDto> mono = exchangeRepository.getByCointExchange(enchangeDto.getCoint_one().toString(), enchangeDto.getCoint_two().toString());
-		mono.subscribe(System.out::print);
-		//.subscribe(System.out::print);
-		
-		exchangeRepository.insertAuditExchange(mono.block());
-		System.out.println("Lo que regresa " + mono.subscribe());		
-		return null;
-		//return exchangeRepository.updateByCointExchange(enchangeDto);
+		 mono.subscribe(t -> {
+			 System.out.println("Lo que se va a actualizar " + t.toString());			 
+			 exchangeRepository.insertAuditExchange(t).subscribe();			 
+		}); 
+		return exchangeRepository.updateByCointExchange(enchangeDto);
 	}
 
 }
